@@ -3,7 +3,7 @@ from PySide import QtGui, QtCore
 from PySide.QtTest import QTest
 import unittest
 import tests
-import Main
+import GearManager
 import Util
 import sys
 import os
@@ -22,7 +22,7 @@ class MemberValueTests(unittest.TestCase):
             self.app.setQuitOnLastWindowClosed(True)
             if os.path.isfile(tests.dBName):
                 os.remove(tests.dBName)
-        self.ui = Main.MainUI(tests.dBName)
+        self.ui = GearManager.MainUI(tests.dBName)
 
         self.ui.defDueDateWin.okBut.click()
 
@@ -122,7 +122,7 @@ class MemberAddUpdateTests(unittest.TestCase):
             self.app.setQuitOnLastWindowClosed(True)
             if os.path.isfile(tests.dBName):
                 os.remove(tests.dBName)
-        self.ui = Main.MainUI(tests.dBName)
+        self.ui = GearManager.MainUI(tests.dBName)
 
         self.ui.defDueDateWin.okBut.click()
 
@@ -281,7 +281,7 @@ class GearValueTests(unittest.TestCase):
             self.app.setQuitOnLastWindowClosed(True)
             if os.path.isfile(tests.dBName):
                 os.remove(tests.dBName)
-        self.ui = Main.MainUI(tests.dBName)
+        self.ui = GearManager.MainUI(tests.dBName)
 
         self.ui.defDueDateWin.okBut.click()
 
@@ -391,7 +391,7 @@ class TransactionTests(unittest.TestCase):
             self.app.setQuitOnLastWindowClosed(True)
             if os.path.isfile(tests.dBName):
                 os.remove(tests.dBName)
-        self.ui = Main.MainUI(tests.dBName)
+        self.ui = GearManager.MainUI(tests.dBName)
 
         self.ui.defDueDateWin.okBut.click()
 
