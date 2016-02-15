@@ -32,9 +32,10 @@ db = datab.Database(None, dbName)
 # Initialize the admin table
 db.execQuery("DELETE FROM Admin", 'member2SQL.py')
 db.execQuery("VACUUM", 'member2SQL.py')
-db.execQuery("INSERT INTO Admin VALUES({}, {}, {:0.2f}, '{}', '{}', '{}', '{}', '{}', '{}')".format(3, 1, rentalFee, fallS, fallE, sprS, sprE, sumS, sumE), 'member2SQL.py')
+db.execQuery("INSERT INTO Admin VALUES({}, {}, {:0.2f}, '{}', '{}', '{}', '{}', '{}', '{}')"
+             .format(3, 1, rentalFee, fallS, fallE, sprS, sprE, sumS, sumE), 'member2SQL.py')
 
-wb = load_workbook(filename='UCMC Member List.xlsx', use_iterators=True)
+wb = load_workbook(filename='../UCMC Member List.xlsx', use_iterators=True)
 for ws in wb:
 
     print ws
@@ -92,9 +93,9 @@ for ws in wb:
                     membAttr['Address'] = membAttr['Address'].replace(',', ', ').split()
                     print membAttr['LastName'], membAttr['FirstName'], membAttr['Address']
                     membAttr['Street'] = ' '.join(membAttr['Address'][:-3]).strip(',').strip().encode("ascii", "ignore")
-                    membAttr['City'  ] = membAttr['Address'][-3].strip(',').strip().encode("ascii", "ignore")
-                    membAttr['State' ] = membAttr['Address'][-2].strip(',').strip().encode("ascii", "ignore").upper()
-                    membAttr['Zip'   ] = membAttr['Address'][-1].strip(',').strip().encode("ascii", "ignore")
+                    membAttr['City'] = membAttr['Address'][-3].strip(',').strip().encode("ascii", "ignore")
+                    membAttr['State'] = membAttr['Address'][-2].strip(',').strip().encode("ascii", "ignore").upper()
+                    membAttr['Zip'] = membAttr['Address'][-1].strip(',').strip().encode("ascii", "ignore")
 
             if isinstance(membAttr['Em Contact'], (basestring, unicode)):
 
@@ -102,7 +103,8 @@ for ws in wb:
 
             if isinstance(membAttr['Em Phone'], (basestring, unicode)):
 
-                membAttr['Em Phone'] = membAttr['Em Phone'].upper().replace('H', ' H').replace('W', ' W').replace('C', ' C').strip()
+                membAttr['Em Phone'] = membAttr['Em Phone'].upper().replace('H', ' H').replace('W', ' W')\
+                    .replace('C', ' C').strip()
 
                 for phone in membAttr['Em Phone'].split():
                     pType = phone[0].upper().strip()
@@ -153,7 +155,7 @@ for ws in wb:
             else:
                 db.addItem('Member', membAttr)
 
-wb = load_workbook(filename='UCMC Member List 2.xlsx', use_iterators=True)
+wb = load_workbook(filename='../UCMC Member List 2.xlsx', use_iterators=True)
 
 for sheetName in ['2015 Yr']:
 
@@ -220,7 +222,7 @@ for sheetName in ['2015 Yr']:
 
             membAttr['1st Sem'] = membAttr['1st Sem'].strip().upper()
             membAttr['2nd Sem'] = membAttr['2nd Sem'].strip().upper()
-            membAttr['Sum'    ] = membAttr['Sum'    ].strip().upper()
+            membAttr['Sum'] = membAttr['Sum'].strip().upper()
 
             if membAttr['1st Sem'] or membAttr['2nd Sem'] or membAttr['Sum']:
                 membAttr['MembStat'] = ' '.join([membAttr['1st Sem'], membAttr['2nd Sem'], membAttr['Sum']])
@@ -262,7 +264,7 @@ for sheetName in ['2015 Yr']:
                         attrList['Date'] = sumS
                         db.addItem('FinancialTrans', attrList)
 
-wb = load_workbook(filename='UCMC Inventory.xlsx', use_iterators=True)
+wb = load_workbook(filename='../UCMC Inventory.xlsx', use_iterators=True)
 ws = wb.get_sheet_by_name(name='Gear')
 
 # Read and confirm the header
@@ -329,7 +331,7 @@ for row in ws.iter_rows():
             gearAttr['Misc'] = gearAttr['Miscellaneous'].encode("ascii", "ignore").strip()
 
         gear = db.getGear(gearAttr['ID'])
-        # # print gearAttr
+        # print gearAttr
         if gear:
             db.updateItem('Gear', gearAttr, gear)
         else:

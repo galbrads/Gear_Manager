@@ -1,6 +1,6 @@
 from __future__ import division
 from PySide import QtGui, QtCore, QtSql
-# import barcode
+import barcode
 import Util
 import math
 import os
@@ -774,41 +774,66 @@ class TabGearMan(QtGui.QTabWidget):
         self.parent.set_stat_message()
 
         if self.parent.currentGear:
-            self.parent.set_stat_message('Writing barcode: {}, {} to dir: {}'.format(self.parent.currentGear.Name,
-                                                                                     self.parent.currentGear.ID,
-                                                                                     self.parent.barCodeDir))
+            self.parent.set_stat_message('Writing barcode: {}, {} to directory: {}'.format(self.parent.currentGear.Name,
+                                                                                           self.parent.currentGear.ID,
+                                                                                           self.parent.barCodeDir))
 
-            # TODO: Figure out how many characters/line that can be written on under the bar code, then split the gear
-            # name over however many lines are needed to write the whole name
-
-            # Generate the gear_name string
-            maxCharPerLine = 21
-            gearNameSplit = self.parent.currentGear.Name.split()
-            gear_name = ''
-            row = ''
-            for word in gearNameSplit:
-                if len(row + ' ' + word) > maxCharPerLine:
-                    gear_name += '\n'
-                    row = ''
-                else:
-                    if gear_name:
-                        gear_name += ' '
-                    row += ' ' + word
-                gear_name += word
-
-            # FIXME: Get the old PIL, pillow libraries
-            # Save the image of the barcode
-            ean = barcode.get('Code39', [self.parent.currentGear.ID, gear_name], writer=barcode.writer.ImageWriter())
+            # # TODO: Figure out how many characters/line that can be written on under the bar code, then split the gear
+            # # name over however many lines are needed to write the whole name
+            #
+            # # Generate the gear_name string
+            # maxCharPerLine = 21
+            # gearNameSplit = self.parent.currentGear.Name.split()
+            # gear_name = ''
+            # row = ''
+            # for word in gearNameSplit:
+            #     if len(row + ' ' + word) > maxCharPerLine:
+            #         gear_name += '\n'
+            #         row = ''
+            #     else:
+            #         if gear_name:
+            #             gear_name += ' '
+            #         row += ' ' + word
+            #     gear_name += word
+            #
+            # # FIXME: Get the old PIL, pillow libraries
+            # # Save the image of the barcode
+            # # ean = barcode.get('Code39', [self.parent.currentGear.ID, gear_name], writer=barcode.writer.ImageWriter())
             # ean = barcode.get('Code39', self.parent.currentGear.ID, writer=barcode.writer.ImageWriter())
+            #
+            # # Replace characters that will make a nasty file name
+            # file_name = gear_name.replace('\n', '_').replace('/', '_').replace(' ', '_').replace('"', '').replace("'", '')
+            #
+            # file_name = '{}_{}'.format(file_name, self.parent.currentGear.ID)
+            #
+            # # Save the barcode
+            # ean.save(os.path.join(self.parent.barCodeDir, file_name))
+            # # ean.save('{1}.png'.format(self.parent.pathDesktop, gear_name, self.parent.currentGear.ID))
 
-            # Replace characters that will make a nasty file name
-            file_name = gear_name.replace('\n', '_').replace('/', '_').replace(' ', '_').replace('"', '').replace("'", '')
+            from reportlab.graphics.barcode import code39
+            from reportlab.lib.pagesizes import letter
+            from reportlab.lib.units import mm
+            from reportlab.pdfgen import canvas
 
-            file_name = '{}_{}'.format(file_name, self.parent.currentGear.ID)
+            barcode_value = self.parent.currentGear.ID
+            barcode_name = self.parent.currentGear.Name
 
-            # Save the barcode
-            ean.save(os.path.join(self.parent.pathDesktop, file_name))
-            # ean.save('{1}.png'.format(self.parent.pathDesktop, gear_name, self.parent.currentGear.ID))
+            file_name = os.path.join(self.parent.barCodeDir, '{}_{}.pdf'.format(barcode_value, barcode_name))
+
+            c = canvas.Canvas(file_name, pagesize=letter)
+            c.setFont('Helvetica-Bold', 6)
+
+            barcode39 = code39.Extended39(barcode_value)
+
+            x = 1 * mm
+            y = 270 * mm
+
+            barcode39.drawOn(c, x, y)
+            w = barcode39.width / 2
+            c.drawCentredString(x + w, y - 2 * mm, barcode_value)
+            c.drawCentredString(x + w, y - 4 * mm, barcode_name[:20])
+
+            c.save()
 
         else:
             self.parent.set_stat_message(Util.noActiveGear, c='red')

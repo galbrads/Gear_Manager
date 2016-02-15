@@ -292,6 +292,9 @@ class MainUI(QtGui.QWidget):
         # self.move(450, 0)
         self.setWindowState(QtCore.Qt.WindowMaximized)
 
+        # Set default barcode diectory
+        self.barCodeDir = os.path.expanduser('~\Desktop')
+
         # Read relevant db info
         self.db = datab.Database(self, db_name)
 
