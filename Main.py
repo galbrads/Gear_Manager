@@ -292,8 +292,9 @@ class MainUI(QtGui.QWidget):
         # self.move(450, 0)
         self.setWindowState(QtCore.Qt.WindowMaximized)
 
-        # Set default barcode diectory
-        self.barCodeDir = os.path.expanduser('~\Desktop')
+        # Set default directories
+        self.pathDesktop = os.path.join(os.path.expanduser('~'), 'Desktop')
+        self.barCodeDir = os.path.join(os.path.expanduser('~'), 'Desktop')
 
         # Read relevant db info
         self.db = datab.Database(self, db_name)
@@ -306,7 +307,6 @@ class MainUI(QtGui.QWidget):
         self.currentGearLineEdit = ''
         self.currentGearComboBox = ''
         self.sessionDueDate = self.db.getDefaultDueDate()
-        self.pathDesktop = os.path.join(os.path.expanduser("~"), 'Desktop')
 
         # Generate auto completers
         self.memberNameComp = self.get_member_name_comp()
