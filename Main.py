@@ -289,7 +289,6 @@ class MainUI(QtGui.QWidget):
         self.setWindowIcon(QtGui.QIcon(self.icon))
         self.setWindowTitle('Gear Manager')
         self.resize(900, 556)
-        # self.move(450, 0)
         self.setWindowState(QtCore.Qt.WindowMaximized)
 
         # Set default directories
