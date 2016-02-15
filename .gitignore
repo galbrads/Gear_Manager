@@ -1,4 +1,6 @@
 **.sqlite
+/member2SQL.py
+/gear2SQL.py
 **.xlsx
 /sandbox*.py
 
