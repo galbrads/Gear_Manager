@@ -345,13 +345,12 @@ class MainUI(QtGui.QWidget):
 
         self.defDueDateWin = ShowRetDateWin(self)
 
-    def set_stat_message(self, text=None, c=None, delay=Util.messageDelay):
+    def set_stat_message(self, text='', c='black', delay=Util.messageDelay):
         
         if text:
-            if c:
-                p = self.statBar.palette()
-                p.setColor(QtGui.QPalette.WindowText, Util.color[c])
-                self.statBar.setPalette(p)
+            p = self.statBar.palette()
+            p.setColor(QtGui.QPalette.WindowText, Util.color[c])
+            self.statBar.setPalette(p)
             self.statBar.showMessage(text, delay)
         else:
             self.statBar.clearMessage()

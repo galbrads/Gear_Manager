@@ -2,8 +2,6 @@ from PySide import QtGui, QtCore, QtSql
 import Util
 import re
 
-__updated__ = "2015-02-15 21:05:21"
-
 
 class TabMembMan(QtGui.QTabWidget):
     def __init__(self, parent):
