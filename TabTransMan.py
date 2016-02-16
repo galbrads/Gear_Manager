@@ -1,8 +1,6 @@
 from PySide import QtGui, QtCore, QtSql
 import Util
 
-__updated__ = "2015-07-12 06:17:30"
-
 
 class TabTransMan(QtGui.QTabWidget):
     def __init__(self, parent):
@@ -32,10 +30,12 @@ class TabTransMan(QtGui.QTabWidget):
         self.setFocusPolicy(QtCore.Qt.NoFocus)
 
         # Member Search box
-        name_label, self.nameSearch, bDayLay, self.bDayBox = Util.make_line_edit_combobox(self, 'Member Name', 'Search for member name...', 'Birthday')
+        name_label, self.nameSearch, bDayLay, self.bDayBox = \
+            Util.make_line_edit_combobox(self, 'Member Name', 'Search for member name...', 'Birthday')
 
         # Make the gear ID search field
-        gNameIDSearchLab, self.gNameIDSearch, gDissAmbLab, self.gDissAmbSearch = Util.make_line_edit_combobox(self, 'Gear Name/ID', 'Search for gear name or ID', 'Gear ID/Name')
+        gNameIDSearchLab, self.gNameIDSearch, gDissAmbLab, self.gDissAmbSearch = \
+            Util.make_line_edit_combobox(self, 'Gear Name/ID', 'Search for gear name or ID', 'Gear ID/Name')
         self.gNameIDSearch.setPlaceholderText('Search for gear name or ID...')
 
         # Member return search box
@@ -89,7 +89,7 @@ class TabTransMan(QtGui.QTabWidget):
         # Search box
         box = QtGui.QGridLayout()
         box.setSpacing(Util.layoutGridSpacing)
-        pass                   ; box.setColumnStretch(0, 0); box.setColumnStretch(1, 1); box.setColumnStretch(2, 0); box.setColumnStretch(3, 1)
+        pass                                      ; box.setColumnStretch(0, 0); box.setColumnStretch(1, 1); box.setColumnStretch(2, 0); box.setColumnStretch(3, 1)
         box.setRowStretch(0, 0)
         box.setRowStretch(1, 0)
         box.setRowStretch(2, 0)
@@ -116,13 +116,13 @@ class TabTransMan(QtGui.QTabWidget):
         p.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.HighlightedText, Util.color['white'])
         self.dueDateCal.setPalette(p)
 
-        dueDateLay = QtGui.QGridLayout(parent)
-        dueDateLay.setSpacing(Util.layoutGridSpacing)
-        dueDateLay.addWidget(self.dueDateCal, 0, 0)
+        due_date_lay = QtGui.QGridLayout(parent)
+        due_date_lay.setSpacing(Util.layoutGridSpacing)
+        due_date_lay.addWidget(self.dueDateCal, 0, 0)
 
-        dueDateBox = QtGui.QGroupBox()
-        dueDateBox.setTitle('Due Date')
-        dueDateBox.setLayout(dueDateLay)
+        due_date_box = QtGui.QGroupBox()
+        due_date_box.setTitle('Due Date')
+        due_date_box.setLayout(due_date_lay)
 
         # Make the check in/out button
         self.checkInOutBut = QtGui.QPushButton()
@@ -156,32 +156,32 @@ class TabTransMan(QtGui.QTabWidget):
         self.update_table()
 
         # Generate the grid
-        tableLay = QtGui.QGridLayout()
-        tableLay.setSpacing(Util.layoutGridSpacing)
-        pass                        ; tableLay.setColumnStretch(0, 0); tableLay.setColumnStretch(1, 1)
-        tableLay.setRowStretch(0, 0)
-        tableLay.setRowStretch(4, 1)
+        table_lay = QtGui.QGridLayout()
+        table_lay.setSpacing(Util.layoutGridSpacing)
+        pass                         ; table_lay.setColumnStretch(0, 0); table_lay.setColumnStretch(1, 1)
+        table_lay.setRowStretch(0, 0)
+        table_lay.setRowStretch(4, 1)
 
-        # Populate the tableLay
-        tableLay.addWidget(transaction_group_box, 0, 0); tableLay.addWidget(self.transView, 0, 1, 5, 3)
-        tableLay.addWidget(self.checkInOutBut, 1, 0)
-        tableLay.addWidget(self.payBut, 2, 0)
-        tableLay.addWidget(viewTransBut, 3, 0)
+        # Populate the table_lay
+        table_lay.addWidget(transaction_group_box, 0, 0); table_lay.addWidget(self.transView, 0, 1, 5, 3)
+        table_lay.addWidget(self.checkInOutBut, 1, 0)
+        table_lay.addWidget(self.payBut, 2, 0)
+        table_lay.addWidget(viewTransBut, 3, 0)
 
         hbox = QtGui.QHBoxLayout()
         hbox.setSpacing(Util.layoutGridSpacing)
-        hbox.addLayout(tableLay)
-        dispBoxLay = QtGui.QGroupBox()
-        dispBoxLay.setTitle('Transaction Info')
-        dispBoxLay.setLayout(hbox)
+        hbox.addLayout(table_lay)
+        disp_box_lay = QtGui.QGroupBox()
+        disp_box_lay.setTitle('Transaction Info')
+        disp_box_lay.setLayout(hbox)
 
         grid = QtGui.QGridLayout(parent)
         grid.setSpacing(Util.layoutGridSpacing)
-        pass                              ; grid.setColumnStretch(0, 1); grid.setColumnStretch(1, 0)
+        pass                                ; grid.setColumnStretch(0, 1); grid.setColumnStretch(1, 0)
         grid.setRowStretch(0, 0)
         grid.setRowStretch(1, 1)
-        grid.addWidget(search_box_lay, 0, 0); grid.addWidget(dueDateBox, 0, 1)
-        grid.addWidget(dispBoxLay, 1, 0, 2, 2)
+        grid.addWidget(search_box_lay, 0, 0); grid.addWidget(due_date_box, 0, 1)
+        grid.addWidget(disp_box_lay, 1, 0, 2, 2)
 
         self.setLayout(grid)
 
@@ -532,7 +532,8 @@ class TabTransMan(QtGui.QTabWidget):
 
         self.db.fillMember(self.nameRetSearch.currentText(), self.bDayRetBox, updCurFields=False)
 
-        if self.parent.currentMember and self.parent.currentGear and self.radioIn.isChecked() and self.parent.currentGear.numCheckedOut() > 0:
+        if self.parent.currentMember and self.parent.currentGear and self.radioIn.isChecked() and \
+                        self.parent.currentGear.numCheckedOut() > 0:
 
             mid_list = self.parent.currentGear.whoHasMe()
 

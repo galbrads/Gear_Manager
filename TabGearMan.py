@@ -1,6 +1,5 @@
 from __future__ import division
 from PySide import QtGui, QtCore, QtSql
-import barcode
 import Util
 import math
 import os
@@ -39,7 +38,7 @@ class TabGearMan(QtGui.QTabWidget):
 
         # Name and ID fields
         GNameLab, self.GNameEdit = Util.make_line_edit(self, 'Gear Name', 'Gear Name')
-        GIDLab, self.GIDEdit = Util.make_line_edit(self, 'Gear ID', 'GearID')
+        GIDLab, self.GIDEdit = Util.make_line_edit(self, 'Gear ID', 'Gear ID')
 
         # Quantity field
         QuantLab = QtGui.QLabel('Quantity')
@@ -778,37 +777,8 @@ class TabGearMan(QtGui.QTabWidget):
                                                                                            self.parent.currentGear.ID,
                                                                                            self.parent.barCodeDir))
 
-            # # TODO: Figure out how many characters/line that can be written on under the bar code, then split the gear
-            # # name over however many lines are needed to write the whole name
-            #
-            # # Generate the gear_name string
-            # maxCharPerLine = 21
-            # gearNameSplit = self.parent.currentGear.Name.split()
-            # gear_name = ''
-            # row = ''
-            # for word in gearNameSplit:
-            #     if len(row + ' ' + word) > maxCharPerLine:
-            #         gear_name += '\n'
-            #         row = ''
-            #     else:
-            #         if gear_name:
-            #             gear_name += ' '
-            #         row += ' ' + word
-            #     gear_name += word
-            #
-            # # FIXME: Get the old PIL, pillow libraries
-            # # Save the image of the barcode
-            # # ean = barcode.get('Code39', [self.parent.currentGear.ID, gear_name], writer=barcode.writer.ImageWriter())
-            # ean = barcode.get('Code39', self.parent.currentGear.ID, writer=barcode.writer.ImageWriter())
-            #
-            # # Replace characters that will make a nasty file name
-            # file_name = gear_name.replace('\n', '_').replace('/', '_').replace(' ', '_').replace('"', '').replace("'", '')
-            #
-            # file_name = '{}_{}'.format(file_name, self.parent.currentGear.ID)
-            #
-            # # Save the barcode
-            # ean.save(os.path.join(self.parent.barCodeDir, file_name))
-            # # ean.save('{1}.png'.format(self.parent.pathDesktop, gear_name, self.parent.currentGear.ID))
+            # TODO: Figure out how many characters/line that can be written on under the bar code, then split the gear
+            # name over however many lines are needed to write the whole name
 
             from reportlab.graphics.barcode import code39
             from reportlab.lib.pagesizes import letter

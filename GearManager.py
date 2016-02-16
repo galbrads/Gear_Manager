@@ -61,12 +61,14 @@ class ColorOptions(object):
     def setColors(self, bg='white', text='black'):
 
         p = QtGui.QPalette()
+        p.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base, Util.color[bg])
+        p.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.Base, Util.color[bg])
         p.setColor(QtGui.QPalette.Active, QtGui.QPalette.Text, Util.color[text])
-        p.setColor(QtGui.QPalette.Active, QtGui.QPalette.Base, Util.color[ bg ])
-        p.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.Base, Util.color[ bg ])
+        p.setColor(QtGui.QPalette.Inactive, QtGui.QPalette.Text, Util.color[text])
         self.setPalette(p)
 
     def defCols(self):
+
         self.setColors()
 
 
@@ -229,7 +231,7 @@ class ShowRetDateWin(QtGui.QWidget):
         self.parent = parent
         self.parent.setEnabled(False)
         self.setWindowIcon(self.parent.icon)
-        self.setWindowTitle('Set Return Date')
+        self.setWindowTitle('Return Date')
 
         # Due date calendar
         self.dueDateCal = QtGui.QCalendarWidget()
